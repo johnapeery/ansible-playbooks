@@ -1,8 +1,10 @@
 -
   name: Copy file to target servers
   hosts: all
+  vars_files:
+    - vars.yml
   tasks:
     - name: Copy file
       copy:
-        src: /home/johnpeery/test/test-file.txt
+        src: /home/{{ username }}/test/test-file.txt
         dest: /tmp/test-file.txt
