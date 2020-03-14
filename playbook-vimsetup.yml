@@ -1,0 +1,41 @@
+-
+  name: Setup vim to handle yaml syntax for new linux hosts
+  hosts: localhost
+  tasks:
+    - name: Install git
+      yum:
+        name: git.x86_64
+        state: installed
+    - name: Install curl
+      yum:
+        name: curl.x86_64
+        state: installed
+    - name: Make .vim/autoload directory
+      file:
+        path: /home/johnpeery/.vim/autoload
+        state: directory
+    - name: Make .vim/bundle directory
+      file:
+        path: /home/johnpeery/.vim/bundle
+        state: directory
+    - name: Download pathogen.vim
+      get_url:
+        url: https://tpo.pe/pathogen.vim
+        dest: /home/johnpeery/.vim/autoload/pathogen.vim
+    - name: Git clone vim-sensible plugin
+      git:
+        repo: https://github.com/tpope/vim-sensible.git
+        dest: /home/johnpeery/.vim/bundle/vim-sensible
+    - name: Git clone pearl of ducks plugin
+      git:
+        repo: https://github.com/pearofducks/ansible-vim
+        dest: /home/johnpeery/.vim/bundle/ansible-vim
+    - name: Setup basic .vimrc file
+      blockinfile:
+        path: /home/johnpeery/.vimrc
+        block: |
+          execute pathogen#infect()
+          syntax on
+          filetype plugin indent on
+          au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+        create: yes
