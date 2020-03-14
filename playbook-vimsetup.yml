@@ -30,12 +30,20 @@
       git:
         repo: https://github.com/pearofducks/ansible-vim
         dest: /home/johnpeery/.vim/bundle/ansible-vim
-    - name: Setup basic .vimrc file
-      blockinfile:
+    - name: Add pathogen to .vimrc file
+      lineinfile:
         path: /home/johnpeery/.vimrc
-        block: |
-          execute pathogen#infect()
-          syntax on
-          filetype plugin indent on
-          au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
+        line: execute pathogen#infect()
         create: yes
+    - name: Add syntax on to .vimrc file
+      lineinfile:
+        path: /home/johnpeery/.vimrc
+        line: syntax on
+    - name: Add filetype plugin indent on to .vimrc file
+      lineinfile:
+        path: /home/johnpeery/.vimrc
+        line: filetype plugin indent on
+    - name: Add playbooks yaml.ansible to .vimrc file
+      lineinfile:
+        path: /home/johnpeery/.vimrc
+        line: au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
