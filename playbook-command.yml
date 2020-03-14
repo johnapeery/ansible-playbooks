@@ -1,0 +1,8 @@
+-
+  name: Sample playbook using the command module
+  hosts: localhost
+  tasks:
+    - name: execute the date command
+      command: date
+    - name: display /etc/resolv.conf
+      command: cat /etc/resolv.conf

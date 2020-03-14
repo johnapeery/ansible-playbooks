@@ -1,0 +1,8 @@
+-
+  name: Play to show how the script module works
+  hosts: localhost
+  vars_files:
+    - vars.yml
+  tasks:
+    - name: Run a script on target servers
+      script: /home/{{ username }}/scripts/test.sh
