@@ -1,6 +1,8 @@
 -
   name: Setup vim to handle yaml syntax for new linux hosts
   hosts: localhost
+  vars_files:
+    - vars.yml
   tasks:
     - name: Install git
       yum:
@@ -12,38 +14,38 @@
         state: installed
     - name: Make .vim/autoload directory
       file:
-        path: /home/johnpeery/.vim/autoload
+        path: /home/{{ username }}/.vim/autoload
         state: directory
     - name: Make .vim/bundle directory
       file:
-        path: /home/johnpeery/.vim/bundle
+        path: /home/{{ username }}/.vim/bundle
         state: directory
     - name: Download pathogen.vim
       get_url:
         url: https://tpo.pe/pathogen.vim
-        dest: /home/johnpeery/.vim/autoload/pathogen.vim
+        dest: /home/{{ username }}/.vim/autoload/pathogen.vim
     - name: Git clone vim-sensible plugin
       git:
         repo: https://github.com/tpope/vim-sensible.git
-        dest: /home/johnpeery/.vim/bundle/vim-sensible
+        dest: /home/{{ username }}/.vim/bundle/vim-sensible
     - name: Git clone pearl of ducks plugin
       git:
         repo: https://github.com/pearofducks/ansible-vim
-        dest: /home/johnpeery/.vim/bundle/ansible-vim
+        dest: /home/{{ username }}/.vim/bundle/ansible-vim
     - name: Add pathogen to .vimrc file
       lineinfile:
-        path: /home/johnpeery/.vimrc
+        path: /home/{{ username }}/.vimrc
         line: execute pathogen#infect()
         create: yes
     - name: Add syntax on to .vimrc file
       lineinfile:
-        path: /home/johnpeery/.vimrc
+        path: /home/{{ username }}/.vimrc
         line: syntax on
     - name: Add filetype plugin indent on to .vimrc file
       lineinfile:
-        path: /home/johnpeery/.vimrc
+        path: /home/{{ username }}/.vimrc
         line: filetype plugin indent on
     - name: Add playbooks yaml.ansible to .vimrc file
       lineinfile:
-        path: /home/johnpeery/.vimrc
+        path: /home/{{ username }}/.vimrc
         line: au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
